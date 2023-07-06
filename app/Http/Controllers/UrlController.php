@@ -38,7 +38,7 @@ class UrlController extends Controller
 
     private function generateShortUrl(): string
     {
-        if (!$lastShortUrl = Url::latest()->value('short'))
+        if (!$lastShortUrl = Url::orderBy('short', 'desc')->latest()->value('short'))
             return 'a';
 
         $carry = true;
