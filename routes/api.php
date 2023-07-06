@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/shorten_url', UrlController::class, 'shorten')->name('shorten_url');
+Route::post('/url/shorten_url', [UrlController::class, 'shorten'])->name('shorten_url');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

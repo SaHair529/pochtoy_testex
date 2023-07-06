@@ -16,7 +16,10 @@ class UrlController extends Controller
         ]);
 
         if ($validator->fails())
-            return response()->json(['error' => 'Invalid URL'], 400);
+            return response()->json([
+                'message' => 'Invalid request parameters',
+                'errors' => $validator->errors()
+            ], 400);
 
         $fullUrl = $request->string('full_url');
 
@@ -31,5 +34,31 @@ class UrlController extends Controller
         }
 
         return response()->json(['short_url' => $shortUrl]);
+    }
+
+    private function generateShortUrl(): string
+    {
+        if (!$lastShortUrl = Url::latest()->value('short'))
+            return 'https://a';
+
+        $carry = true;
+        for ($i = strlen($lastShortUrl) - 1; $i >= 0; $i--) {
+            $char = $lastShortUrl[$i];
+            if ($carry) {
+                if ($char === 'z') {
+                    $lastShortUrl[$i] = 'a';
+                    $carry = true;
+                }
+                else {
+                    $lastShortUrl[$i] = chr(ord($char) + 1);
+                    $carry = false;
+                }
+            }
+        }
+
+        if ($carry)
+            $lastShortUrl .= 'a';
+
+        return $lastShortUrl;
     }
 }
