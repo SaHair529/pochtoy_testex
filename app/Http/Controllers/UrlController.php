@@ -33,7 +33,7 @@ class UrlController extends Controller
             ]);
         }
 
-        return response()->json(['short_url' => 'https://'.$shortUrl]);
+        return response()->json(['short_url' => 'https://'.$shortUrl], 200, [], JSON_UNESCAPED_SLASHES);
     }
 
     private function generateShortUrl(): string
