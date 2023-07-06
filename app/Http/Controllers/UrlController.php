@@ -33,13 +33,13 @@ class UrlController extends Controller
             ]);
         }
 
-        return response()->json(['short_url' => $shortUrl]);
+        return response()->json(['short_url' => 'https://'.$shortUrl]);
     }
 
     private function generateShortUrl(): string
     {
         if (!$lastShortUrl = Url::latest()->value('short'))
-            return 'https://a';
+            return 'a';
 
         $carry = true;
         for ($i = strlen($lastShortUrl) - 1; $i >= 0; $i--) {
